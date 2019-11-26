@@ -1,0 +1,48 @@
+---
+- name: Configuration Management and Continuous Deployment
+  hosts: all
+  become: yes
+  vars:
+    - nodejs_npm_global_packages:
+      - name: forever
+    - app_directory: /node/App
+  roles:
+    - role: geerlingguy.nodejs
+  tasks:
+    - name: Ensure Node.js app folder exists
+      file: "path={{app_directory}} state=directory"
+
+    - name: Clone git repo
+      git:
+        repo: https://github.com/CSC-DevOps/App.git
+        version: master
+        dest: "{{app_directory}}"
+
+    - name: Install npm dependency packages
+      npm: "path={{app_directory}}"
+
+    - name: Check list of running Node.js apps
+      command: forever list
+      register: forever_list
+      changed_when: false
+      become: no
+
+    - name: Run the app
+      command: "forever start {{app_directory}}/main.js start 8080"
+      when: "forever_list.stdout.find( app_directory + '/main.js') == -1"
+      become: no
+    
+    - name: Ensure latest package versions
+      yum:
+        name:
+          - bash
+          - openssl
+          - openssh-client
+          - openssh-server
+        state: latest
+
+    - name: Remove files in the tmp folder
+      shell: /bin/rm -rf /tmp/*
+      args:
+        warn: false
+...

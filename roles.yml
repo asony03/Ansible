@@ -1,0 +1,14 @@
+---
+- name: Create necessary roles
+  hosts: all
+  vars:
+   - roles_directory: /etc/ansible/roles
+  tasks:
+    - name: Ensure roles dir exists
+      file: "path={{roles_directory}} state=directory"
+
+    - name: Install roles
+      command: ansible-galaxy install --roles-path {{roles_directory}} {{item}}
+      with_items:
+        - geerlingguy.nodejs
+...
