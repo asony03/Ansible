@@ -3,12 +3,16 @@
   hosts: all
   become: yes
   vars:
-    - nodejs_npm_global_packages:
-      - name: forever
     - app_directory: /node/App
   roles:
     - role: geerlingguy.nodejs
   tasks:
+    - name: Install forever
+      npm:
+        name: forever
+        global: yes
+        state: present
+
     - name: Ensure Node.js app folder exists
       file: "path={{app_directory}} state=directory"
 
