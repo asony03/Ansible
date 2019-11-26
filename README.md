@@ -1,5 +1,3 @@
-# HW5-510
-
 ## Order of steps to run the ansible playbook:
 
 ## Using baker, by spinning a vm on the localhost:
@@ -10,6 +8,7 @@
 4. Run `baker run install`
 
 The app will be running at localhost:8080
+To reload baker, do `baker server reload`
 
 ## Without baker, on some other machine
 
