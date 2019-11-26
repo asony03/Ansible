@@ -1,2 +1,2 @@
-[HW5_VM]
+[HW5VM]
 localhost  ansible_connection=local

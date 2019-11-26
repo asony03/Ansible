@@ -1,4 +1,4 @@
-name: HW5_VM
+name: HW5VM
 vm:
   ip: 192.168.14.14
   memory: 2048
