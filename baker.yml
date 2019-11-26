@@ -1,0 +1,13 @@
+name: HW5_VM
+vm:
+  ip: 192.168.14.14
+  memory: 2048
+  ports: 8080
+
+tools:
+  - ansible
+
+commands:
+  roles: ansible-playbook roles.yml -i inventory
+  ping: ansible all -m ping -i inventory
+  install: ansible-playbook main.yml -i inventory
